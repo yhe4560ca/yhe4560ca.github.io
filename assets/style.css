@@ -1,0 +1,108 @@
+/* Shared design tokens for yhe4560ca tools */
+
+:root {
+  --bg: #f5f6f8;
+  --surface: #ffffff;
+  --text: #1a1d23;
+  --muted: #5c6370;
+  --border: #e2e5ea;
+  --accent: #2f6fed;
+  --accent-hover: #1d54c4;
+  --success: #1f9254;
+  --success-hover: #157a44;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #14161a;
+    --surface: #1d2026;
+    --text: #eef0f3;
+    --muted: #9aa2af;
+    --border: #2a2e36;
+    --accent: #5b8dfa;
+    --accent-hover: #7ea3fc;
+    --success: #34c274;
+    --success-hover: #4fd489;
+  }
+}
+
+* { box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 16px;
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.back-link:hover {
+  color: var(--accent);
+}
+
+.no-print {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08);
+}
+
+.no-print h2 {
+  color: var(--text);
+}
+
+.no-print label {
+  color: var(--muted);
+}
+
+.input-field,
+.no-print textarea {
+  background: var(--bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+
+.input-field::placeholder,
+.no-print textarea::placeholder {
+  color: var(--muted);
+}
+
+.row-group {
+  background: var(--bg);
+  border: 1px solid var(--border);
+}
+
+.row-group h4 {
+  color: var(--muted);
+}
+
+.btn,
+.no-print button {
+  border-radius: 6px;
+}
+
+.print-btn,
+.btn-generate {
+  background-color: var(--accent);
+  color: #fff;
+}
+
+.print-btn:hover,
+.btn-generate:hover {
+  background-color: var(--accent-hover);
+}
+
+.btn-print {
+  background-color: var(--success);
+  color: #fff;
+}
+
+.btn-print:hover {
+  background-color: var(--success-hover);
+}

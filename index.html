@@ -4,31 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>yhe4560ca — Tools</title>
+<link rel="stylesheet" href="assets/style.css">
 <style>
-  :root {
-    --bg: #f5f6f8;
-    --surface: #ffffff;
-    --text: #1a1d23;
-    --muted: #5c6370;
-    --border: #e2e5ea;
-    --accent: #2f6fed;
-  }
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --bg: #14161a;
-      --surface: #1d2026;
-      --text: #eef0f3;
-      --muted: #9aa2af;
-      --border: #2a2e36;
-      --accent: #5b8dfa;
-    }
-  }
-  * { box-sizing: border-box; }
   body {
     margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-    background: var(--bg);
-    color: var(--text);
     padding: 48px 20px;
   }
   main {
@@ -47,7 +26,9 @@
     gap: 14px;
   }
   a.card {
-    display: block;
+    display: flex;
+    align-items: center;
+    gap: 16px;
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 10px;
@@ -70,6 +51,69 @@
     color: var(--muted);
     font-size: 0.92rem;
   }
+
+  /* Thumbnails mimic the printed label: always black-on-white, regardless of theme */
+  .thumb {
+    flex-shrink: 0;
+    width: 72px;
+    height: 72px;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    color: #000;
+  }
+
+  .thumb-bin {
+    flex-direction: column;
+    gap: 4px;
+    padding: 8px;
+  }
+
+  .thumb-barcode {
+    width: 100%;
+    height: 16px;
+    background: repeating-linear-gradient(90deg, #000 0 2px, transparent 2px 4px);
+  }
+
+  .thumb-bin-row {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 4px;
+  }
+
+  .thumb-code {
+    font-weight: 700;
+    font-size: 7px;
+    letter-spacing: 0.2px;
+    white-space: nowrap;
+  }
+
+  .thumb-badge {
+    background: #000;
+    color: #fff;
+    font-weight: 700;
+    font-size: 7px;
+    line-height: 1;
+    padding: 3px 4px;
+    border-radius: 2px;
+  }
+
+  .thumb-pallet {
+    flex-direction: column;
+    justify-content: space-evenly;
+    padding: 8px;
+  }
+
+  .thumb-pallet .thumb-line {
+    font-weight: 700;
+    white-space: nowrap;
+  }
 </style>
 </head>
 <body>
@@ -79,8 +123,28 @@
   </header>
   <div class="tools">
     <a class="card" href="tools/bin-label-generator.html">
-      <h2>Warehouse Bin Label Generator</h2>
-      <p>Generate printable 6x4 warehouse bin labels.</p>
+      <div class="thumb thumb-bin">
+        <div class="thumb-barcode"></div>
+        <div class="thumb-bin-row">
+          <span class="thumb-code">AA11-11-23</span>
+          <span class="thumb-badge">AA</span>
+        </div>
+      </div>
+      <div>
+        <h2>Bin Label Generator</h2>
+        <p>Generate printable 6x4 warehouse bin labels.</p>
+      </div>
+    </a>
+    <a class="card" href="tools/pallet-info-generator.html">
+      <div class="thumb thumb-pallet">
+        <div class="thumb-line" style="font-size: 7px;">#1234(Y)</div>
+        <div class="thumb-line" style="font-size: 6px;">FBY</div>
+        <div class="thumb-line" style="font-size: 10px;">08/28</div>
+      </div>
+      <div>
+        <h2>Pallet Info Label Generator</h2>
+        <p>Generate printable portrait 4x6 pallet labels.</p>
+      </div>
     </a>
   </div>
 </main>

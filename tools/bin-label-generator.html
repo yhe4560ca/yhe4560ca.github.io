@@ -3,13 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>6x4 Warehouse Bin Label Generator</title>
+    <title>6x4 Bin Label Generator</title>
+    <link rel="stylesheet" href="../assets/style.css">
     <style>
         body {
-            font-family: Arial, sans-serif;
             margin: 20px;
-            color: #333;
-            background-color: #f0f2f5;
             -webkit-print-color-adjust: exact;
             print-color-adjust: exact;
         }
@@ -17,10 +15,7 @@
         .no-print {
             max-width: 600px;
             margin: 0 auto 30px auto;
-            background: #ffffff;
             padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
 
         textarea {
@@ -29,8 +24,6 @@
             padding: 10px;
             font-family: monospace;
             font-size: 14px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
             box-sizing: border-box;
             margin-bottom: 15px;
         }
@@ -41,29 +34,11 @@
         }
 
         button {
-            color: white;
             border: none;
             padding: 10px 20px;
             font-size: 16px;
-            border-radius: 4px;
             cursor: pointer;
             font-weight: bold;
-        }
-
-        .btn-generate {
-            background-color: #007bff;
-        }
-
-        .btn-generate:hover {
-            background-color: #0056b3;
-        }
-
-        .btn-print {
-            background-color: #28a745;
-        }
-
-        .btn-print:hover {
-            background-color: #218838;
         }
 
         #labels-container {
@@ -197,7 +172,8 @@
 <body>
 
     <div class="no-print">
-        <h2>6x4 Warehouse Bin Label Generator</h2>
+        <a class="back-link" href="../index.html">&larr; Back to Tools</a>
+        <h2>6x4 Bin Label Generator</h2>
         <label for="barcodeInput">Enter codes (one per line, e.g., AA11-11-23):</label>
         <textarea id="barcodeInput" oninput="generateBarcodes()">AA11-11-23
 </textarea>

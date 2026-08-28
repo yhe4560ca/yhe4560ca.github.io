@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Optimal-Fit Portrait 4x6 Label Generator</title>
+    <link rel="stylesheet" href="../assets/style.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+
+        .no-print {
+            padding: 20px;
+            width: 100%;
+            max-width: 450px;
+            margin-bottom: 20px;
+        }
+
+        .no-print h2 {
+            margin-top: 0;
+            font-size: 1.2rem;
+        }
+
+        .row-group {
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 12px;
+        }
+
+        .row-group h4 {
+            margin: 0 0 8px 0;
+            font-size: 0.95rem;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 8px;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 0.9rem;
+        }
+
+        .btn {
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+            font-weight: bold;
+            width: 100%;
+            margin-top: 5px;
+        }
+
+        /* Screen Preview Styles */
+        .label-container {
+            display: none;
+            width: 384px;
+            height: 576px;
+            border: 1px solid #ccc;
+            margin-bottom: 20px;
+            background: white;
+            box-sizing: border-box;
+            padding: 12px;
+        }
+
+        .label-container.preview-active {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Print Specific Setup */
+        @media print {
+            body {
+                background: none;
+                padding: 0;
+                margin: 0;
+                display: block;
+                min-height: auto;
+            }
+
+            .no-print, .label-container.preview-active {
+                display: none !important;
+            }
+
+            .label-container.print-active {
+                display: flex !important;
+                width: 4in;
+                height: 6in;
+                page-break-after: always;
+                box-sizing: border-box;
+                padding: 0.1in;
+                background: white;
+                overflow: hidden;
+                position: absolute;
+                top: 0;
+                left: 0;
+            }
+
+            @page {
+                size: 4in 6in;
+                margin: 0;
+            }
+        }
+
+        .label {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            align-items: center;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .label-line-wrapper {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .label-line {
+            font-weight: bold;
+            line-height: 1.1;
+            color: #000;
+            white-space: nowrap;
+        }
+
+        /* Constant Font Size for Date */
+        .text-date {
+            font-size: 85px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="no-print">
+        <a class="back-link" href="../index.html">&larr; Back to Tools</a>
+        <h2>Enter Label Details (Portrait 4x6)</h2>
+        <div id="inputs-container"></div>
+        <button class="btn print-btn" onclick="printLabel()">Print 4x6 Label</button>
+    </div>
+
+    <div id="labels-wrapper"></div>
+
+    <script>
+        function getFormattedDate() {
+            const today = new Date();
+            const mm = String(today.getMonth() + 1).padStart(2, '0');
+            const dd = String(today.getDate()).padStart(2, '0');
+            const yy = String(today.getFullYear()).slice(-2);
+            return `${mm}/${dd}/${yy}`;
+        }
+
+        function loadDefaultRow() {
+            const container = document.getElementById('inputs-container');
+            const rowDiv = document.createElement('div');
+            rowDiv.classList.add('row-group');
+            
+            rowDiv.innerHTML = `
+                <h4>Label Details</h4>
+                <input type="text" id="num-1" class="input-field" placeholder="柜号后四位 (e.g., #1234)" value="#" oninput="renderLabel()">
+                <input type="text" id="category-1" class="input-field" placeholder="分类 (e.g., FBY)" value="" oninput="renderLabel()">
+                <input type="text" id="date-1" class="input-field" placeholder="日期" value="${getFormattedDate()}" oninput="renderLabel()">
+            `;
+            container.appendChild(rowDiv);
+        }
+
+        window.onload = function() {
+            loadDefaultRow();
+            renderLabel();
+        };
+
+        function fitTextOptimal(element, maxFontSize = 150, minFontSize = 24) {
+            const parent = element.parentElement;
+            
+            let fontSize = maxFontSize;
+            element.style.fontSize = fontSize + 'px';
+            
+            let textWidth = element.scrollWidth;
+            let parentWidth = parent.clientWidth;
+            
+            if (textWidth > parentWidth) {
+                fontSize = Math.floor(maxFontSize * (parentWidth / textWidth));
+            }
+            
+            if (fontSize < minFontSize) {
+                fontSize = minFontSize;
+                element.style.whiteSpace = 'normal';
+                element.style.wordBreak = 'break-all';
+            } else {
+                element.style.whiteSpace = 'nowrap';
+            }
+            
+            element.style.fontSize = fontSize + 'px';
+        }
+
+        function renderLabel() {
+            const wrapper = document.getElementById('labels-wrapper');
+            wrapper.innerHTML = '';
+
+            let num = document.getElementById('num-1').value.trim();
+            if (!num.startsWith('#')) num = '#' + num;
+            if (num === '#') num = '#----';
+
+            // Add (Y) suffix if not present
+            if (!num.endsWith('(Y)')) {
+                num = num + '(Y)';
+            }
+
+            const category = document.getElementById('category-1').value.trim() || '-----';
+            const date = document.getElementById('date-1').value.trim() || getFormattedDate();
+
+            const labelContainer = document.createElement('div');
+            labelContainer.className = 'label-container preview-active print-active';
+
+            labelContainer.innerHTML = `
+                <div class="label">
+                    <div class="label-line-wrapper"><div class="label-line text-num">${num}</div></div>
+                    <div class="label-line-wrapper"><div class="label-line text-category">${category}</div></div>
+                    <div class="label-line-wrapper"><div class="label-line text-date">${date}</div></div>
+                </div>
+            `;
+            wrapper.appendChild(labelContainer);
+
+            // Dynamically calculate scale for both # line and category line
+            requestAnimationFrame(() => {
+                fitTextOptimal(labelContainer.querySelector('.text-num'), 110, 24);
+                fitTextOptimal(labelContainer.querySelector('.text-category'), 130, 24);
+            });
+        }
+
+        function printLabel() {
+            renderLabel();
+            requestAnimationFrame(() => {
+                setTimeout(() => {
+                    window.print();
+                }, 50);
+            });
+        }
+    </script>
+</body>
+</html>
