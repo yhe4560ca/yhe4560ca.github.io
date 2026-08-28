@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>6x4 Warehouse Bin Label Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            color: #333;
+            background-color: #f0f2f5;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        .no-print {
+            max-width: 600px;
+            margin: 0 auto 30px auto;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        textarea {
+            width: 100%;
+            height: 100px;
+            padding: 10px;
+            font-family: monospace;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            margin-bottom: 15px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        button {
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .btn-generate {
+            background-color: #007bff;
+        }
+
+        .btn-generate:hover {
+            background-color: #0056b3;
+        }
+
+        .btn-print {
+            background-color: #28a745;
+        }
+
+        .btn-print:hover {
+            background-color: #218838;
+        }
+
+        #labels-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .label-card {
+            border: 1px dashed #999;
+            width: 6in;
+            height: 4in;
+            background: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            box-sizing: border-box;
+            padding: 30px 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .label-card img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .label-divider {
+            width: 100%;
+            height: 2px;
+            background-color: #333;
+            border: none;
+            margin: 10px 0;
+        }
+
+        .rack-info-section {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        .full-code-wrapper {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-width: 0;
+        }
+
+        .full-code-display {
+            font-size: 65px;
+            font-weight: bold;
+            font-family: Arial, sans-serif;
+            color: #000;
+            letter-spacing: 1px;
+            white-space: nowrap;
+        }
+
+        .row-badge-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #000;
+            color: #fff;
+            padding: 40px 15px;
+            border-radius: 8px;
+            min-width: 120px;
+            flex-shrink: 0;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        .row-badge-value {
+            font-size: 100px;
+            font-weight: bold;
+            color: #fff;
+            line-height: 1;
+        }
+
+        @media print {
+            @page {
+                size: 6in 4in;
+                margin: 0;
+            }
+
+            body {
+                margin: 0;
+                background: white;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            .no-print {
+                display: none;
+            }
+
+            #labels-container {
+                gap: 0;
+            }
+
+            .label-card {
+                border: none;
+                width: 6in;
+                height: 4in;
+                page-break-after: always;
+                break-after: page;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                align-items: center;
+                margin: 0;
+                padding: 30px 20px;
+                box-shadow: none;
+            }
+
+            .label-divider {
+                background-color: #000 !important;
+            }
+
+            .row-badge-container {
+                background-color: #000 !important;
+                color: #fff !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="no-print">
+        <h2>6x4 Warehouse Bin Label Generator</h2>
+        <label for="barcodeInput">Enter codes (one per line, e.g., AA11-11-23):</label>
+        <textarea id="barcodeInput" oninput="generateBarcodes()">AA11-11-23
+</textarea>
+        <div class="button-group">
+            <button class="btn-generate" onclick="generateBarcodes()">Update Preview</button>
+            <button class="btn-print" onclick="window.print()">Print Labels</button>
+        </div>
+    </div>
+
+    <div id="labels-container"></div>
+
+    <!-- JsBarcode Library -->
+    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
+
+    <script>
+        function generateBarcodes() {
+            const container = document.getElementById('labels-container');
+            const inputVal = document.getElementById('barcodeInput').value;
+            
+            const lines = inputVal.split('\n').map(line => line.trim()).filter(line => line.length > 0);
+            
+            container.innerHTML = '';
+
+            if (lines.length === 0) {
+                return;
+            }
+
+            lines.forEach((code) => {
+                const card = document.createElement('div');
+                card.className = 'label-card';
+
+                // 1. TOP: Barcode Image
+                const canvas = document.createElement('canvas');
+                try {
+                    JsBarcode(canvas, code, {
+                        format: "code128",
+                        width: 6,
+                        height: 100,
+                        displayValue: false,
+                        fontSize: 22,
+                        textMargin: 8,
+                        margin: 10
+                    });
+
+                    const img = document.createElement('img');
+                    img.src = canvas.toDataURL("image/png");
+                    card.appendChild(img);
+                } catch (e) {
+                    console.error(`Error generating barcode for "${code}":`, e);
+                }
+
+                // Horizontal Divider
+                const hr = document.createElement('hr');
+                hr.className = 'label-divider';
+                card.appendChild(hr);
+
+                // 2. BOTTOM: Structured Rack Info Section
+                const parts = code.split('-');
+                
+                const zeroIndex = parts[0] || '';
+                const rowMatch = zeroIndex.match(/^[A-Za-z]+/);
+                const row = rowMatch ? rowMatch[0] : '';
+                const rack = zeroIndex.substring(row.length);
+
+                const level = parts[1] || '';
+                const bin = parts[2] || '';
+
+                const formattedFullCode = `${row}${rack}-${level}-${bin}`;
+
+                const rackInfoHTML = `
+                    <div class="rack-info-section">
+                        <div class="full-code-wrapper">
+                            <div class="full-code-display">${formattedFullCode}</div>
+                        </div>
+                        <div class="row-badge-container">
+                            <div class="row-badge-value">${row}</div>
+                        </div>
+                    </div>
+                `;
+                
+                const infoContainer = document.createElement('div');
+                infoContainer.style.width = '100%';
+                infoContainer.innerHTML = rackInfoHTML;
+                card.appendChild(infoContainer);
+
+                container.appendChild(card);
+            });
+        }
+
+        window.onload = function() {
+            generateBarcodes();
+        };
+    </script>
+
+</body>
+</html>
