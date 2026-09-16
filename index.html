@@ -114,6 +114,34 @@
     font-weight: 700;
     white-space: nowrap;
   }
+
+  .thumb-wo {
+    flex-direction: column;
+    gap: 3px;
+    padding: 6px;
+  }
+
+  .thumb-wo-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+  }
+
+  .thumb-wo-text {
+    font-weight: 700;
+    font-size: 7px;
+    white-space: nowrap;
+  }
+
+  .thumb-wo .thumb-barcode {
+    height: 10px;
+  }
+
+  .thumb-wo-divider {
+    width: 100%;
+    border-top: 1px dashed #000;
+  }
 </style>
 </head>
 <body>
@@ -144,6 +172,23 @@
       <div>
         <h2>Pallet Info Label Generator</h2>
         <p>Generate printable portrait 4x6 pallet labels.</p>
+      </div>
+    </a>
+    <a class="card" href="tools/wo-bin-label-generator.html">
+      <div class="thumb thumb-wo">
+        <div class="thumb-wo-block">
+          <span class="thumb-wo-text">WO-001</span>
+          <div class="thumb-barcode"></div>
+        </div>
+        <div class="thumb-wo-divider"></div>
+        <div class="thumb-wo-block">
+          <span class="thumb-wo-text">WO-002</span>
+          <div class="thumb-barcode"></div>
+        </div>
+      </div>
+      <div>
+        <h2>WO Bin Label Generator</h2>
+        <p>Generate printable 4x6 work-order barcode labels.</p>
       </div>
     </a>
   </div>
