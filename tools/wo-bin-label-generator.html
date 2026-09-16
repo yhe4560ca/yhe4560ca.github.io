@@ -2,61 +2,60 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>4x6 Label Generator</title>
-    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WO Bin Label Generator</title>
+    <link rel="stylesheet" href="../assets/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
     <style>
         body {
-            font-family: Arial, sans-serif;
             margin: 20px;
-            background-color: #f4f4f9;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
         }
+
         .no-print {
-            background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
             max-width: 600px;
-            margin-bottom: 20px;
+            margin: 0 auto 30px auto;
+            padding: 20px;
         }
+
         textarea {
             width: 100%;
             height: 100px;
             padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-            margin-bottom: 10px;
+            font-family: monospace;
             font-size: 14px;
-        }
-        button {
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        
-        @media print {
-            body { background: none; margin: 0; }
-            .no-print { display: none; }
-            .label { page-break-after: always; border: none !important; }
+            box-sizing: border-box;
+            margin-bottom: 15px;
         }
 
-        .label {
+        #labels-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .label-card {
+            border: 1px dashed #999;
             width: 4in;
             height: 6in;
-            padding: 0.3in;
-            box-sizing: border-box;
             background: white;
+            color: #000;
             display: flex;
             flex-direction: column;
             justify-content: space-around;
             align-items: center;
-            border: 1px dashed #ccc;
-            margin: 0 auto;
+            box-sizing: border-box;
+            padding: 0.3in;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
             text-align: center;
+        }
+
+        @media print {
+            body { background: none; margin: 0; }
+            .no-print { display: none; }
+            .label-card { page-break-after: always; border: none !important; box-shadow: none; }
         }
 
         @page {
@@ -76,12 +75,12 @@
             font-weight: bold;
             margin-bottom: 5px;
         }
-        
+
         .barcode-section {
             margin: 5px 0;
         }
-        
-        .divider {
+
+        .label-divider {
             width: 100%;
             border-top: 2px dashed #000;
             margin: 10px 0;
@@ -91,21 +90,21 @@
 <body>
 
     <div class="no-print">
-        <h2>4x6 Label Generator</h2>
-        <p>Enter Work Orders (one per line, e.g., 1, 2):</p>
+        <a class="back-link" href="../index.html">&larr; Back to Tools</a>
+        <h2>WO Bin Label Generator</h2>
+        <label for="dataInput">Enter Work Orders (one per line, e.g., 1, 2):</label>
         <textarea id="dataInput" placeholder="1&#10;2">1
 2</textarea>
-        <br>
-        <button onclick="generateLabels()">Generate & Print</button>
+        <button class="btn-generate" onclick="generateLabels()">Generate &amp; Print</button>
     </div>
 
-    <div id="labelContainer"></div>
+    <div id="labels-container"></div>
 
     <script>
         function generateLabels() {
             const input = document.getElementById('dataInput').value;
             const lines = input.split('\n').map(item => item.trim()).filter(item => item !== '');
-            const container = document.getElementById('labelContainer');
+            const container = document.getElementById('labels-container');
             container.innerHTML = '';
 
             // Group lines into pairs (2 items per label)
@@ -115,12 +114,12 @@
 
                 const wo1 = `WO-${num1.padStart(3, '0')}`;
                 const wo2 = `WO-${num2.padStart(3, '0')}`;
-                
+
                 const id1 = `barcode-1-${i}`;
                 const id2 = `barcode-2-${i}`;
 
                 const labelDiv = document.createElement('div');
-                labelDiv.className = 'label';
+                labelDiv.className = 'label-card';
                 labelDiv.innerHTML = `
                     <div class="item-block">
                         <div class="wo-text">${wo1}</div>
@@ -128,8 +127,8 @@
                             <svg id="${id1}"></svg>
                         </div>
                     </div>
-                    
-                    <div class="divider"></div>
+
+                    <div class="label-divider"></div>
 
                     <div class="item-block">
                         <div class="wo-text">${wo2}</div>
@@ -138,7 +137,7 @@
                         </div>
                     </div>
                 `;
-                
+
                 container.appendChild(labelDiv);
 
                 // Render Barcodes
