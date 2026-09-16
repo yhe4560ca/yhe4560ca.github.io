@@ -107,13 +107,9 @@
             const container = document.getElementById('labels-container');
             container.innerHTML = '';
 
-            // Group lines into pairs (2 items per label)
-            for (let i = 0; i < lines.length; i += 2) {
-                const num1 = lines[i];
-                const num2 = lines[i+1] || lines[i]; // fallback if odd number of items
-
-                const wo1 = `WO-${num1.padStart(3, '0')}`;
-                const wo2 = `WO-${num2.padStart(3, '0')}`;
+            // One label sheet per WO, with the same WO printed twice (top and bottom)
+            lines.forEach((num, i) => {
+                const wo = `WO-${num.padStart(3, '0')}`;
 
                 const id1 = `barcode-1-${i}`;
                 const id2 = `barcode-2-${i}`;
@@ -122,7 +118,7 @@
                 labelDiv.className = 'label-card';
                 labelDiv.innerHTML = `
                     <div class="item-block">
-                        <div class="wo-text">${wo1}</div>
+                        <div class="wo-text">${wo}</div>
                         <div class="barcode-section">
                             <svg id="${id1}"></svg>
                         </div>
@@ -131,7 +127,7 @@
                     <div class="label-divider"></div>
 
                     <div class="item-block">
-                        <div class="wo-text">${wo2}</div>
+                        <div class="wo-text">${wo}</div>
                         <div class="barcode-section">
                             <svg id="${id2}"></svg>
                         </div>
@@ -141,9 +137,9 @@
                 container.appendChild(labelDiv);
 
                 // Render Barcodes
-                JsBarcode(`#${id1}`, wo1, { format: "CODE128", width: 2.5, height: 70, displayValue: false });
-                JsBarcode(`#${id2}`, wo2, { format: "CODE128", width: 2.5, height: 70, displayValue: false });
-            }
+                JsBarcode(`#${id1}`, wo, { format: "CODE128", width: 2.5, height: 70, displayValue: false });
+                JsBarcode(`#${id2}`, wo, { format: "CODE128", width: 2.5, height: 70, displayValue: false });
+            });
 
             window.print();
         }
