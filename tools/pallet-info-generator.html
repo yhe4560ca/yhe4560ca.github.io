@@ -3,17 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Optimal-Fit Portrait 4x6 Label Generator</title>
+    <title>Pallet Info Label Creator — YHECA</title>
     <link rel="stylesheet" href="../assets/style.css">
     <style>
         body {
             margin: 0;
-            padding: 20px;
+        }
+
+        .site-main {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-height: 100vh;
             box-sizing: border-box;
         }
 
@@ -63,6 +64,8 @@
         /* Screen Preview Styles */
         .label-container {
             display: none;
+            /* Printed labels keep the system font, independent of the site typeface */
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
             width: 384px;
             height: 576px;
             border: 1px solid #ccc;
@@ -87,6 +90,10 @@
                 margin: 0;
                 display: block;
                 min-height: auto;
+            }
+
+            .site-main {
+                display: block;
             }
 
             .no-print, .label-container.preview-active {
@@ -146,10 +153,11 @@
     </style>
 </head>
 <body>
+<script src="../assets/nav.js"></script>
+<main class="site-main">
 
     <div class="no-print">
-        <a class="back-link" href="../index.html">&larr; Back to Tools</a>
-        <h2>Enter Label Details (Portrait 4x6)</h2>
+        <h2>Pallet Info Label Creator</h2>
         <div id="inputs-container"></div>
         <button class="btn print-btn" onclick="printLabel()">Print 4x6 Label</button>
     </div>
@@ -252,5 +260,7 @@
             });
         }
     </script>
+</main>
+<script src="../assets/fit-preview.js"></script>
 </body>
 </html>

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>6x4 Bin Label Generator</title>
+    <title>6x4 Bin Label Creator — YHECA</title>
     <link rel="stylesheet" href="../assets/style.css">
     <style>
         body {
-            margin: 20px;
+            margin: 0;
             -webkit-print-color-adjust: exact;
             print-color-adjust: exact;
         }
@@ -170,10 +170,11 @@
     </style>
 </head>
 <body>
+<script src="../assets/nav.js"></script>
+<main class="site-main">
 
     <div class="no-print">
-        <a class="back-link" href="../index.html">&larr; Back to Tools</a>
-        <h2>6x4 Bin Label Generator</h2>
+        <h2>6x4 Bin Label Creator</h2>
         <label for="barcodeInput">Enter codes (one per line, e.g., AA11-11-23):</label>
         <textarea id="barcodeInput" oninput="generateBarcodes()">AA11-11-23
 </textarea>
@@ -268,5 +269,7 @@
         };
     </script>
 
+</main>
+<script src="../assets/fit-preview.js"></script>
 </body>
 </html>

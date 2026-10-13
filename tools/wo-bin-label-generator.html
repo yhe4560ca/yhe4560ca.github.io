@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WO Bin Label Generator</title>
+    <title>WO Bin Label Creator — YHECA</title>
     <link rel="stylesheet" href="../assets/style.css">
     <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
     <style>
         body {
-            margin: 20px;
+            margin: 0;
             -webkit-print-color-adjust: exact;
             print-color-adjust: exact;
         }
@@ -29,6 +29,13 @@
             margin-bottom: 15px;
         }
 
+        button {
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
         #labels-container {
             display: flex;
             flex-direction: column;
@@ -38,6 +45,8 @@
 
         .label-card {
             border: 1px dashed #999;
+            /* Printed labels keep the system font, independent of the site typeface */
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
             width: 4in;
             height: 6in;
             background: white;
@@ -88,20 +97,21 @@
     </style>
 </head>
 <body>
+<script src="../assets/nav.js"></script>
+<main class="site-main">
 
     <div class="no-print">
-        <a class="back-link" href="../index.html">&larr; Back to Tools</a>
-        <h2>WO Bin Label Generator</h2>
+        <h2>WO Bin Label Creator</h2>
         <label for="dataInput">Enter Work Orders (one per line, e.g., 1, 2):</label>
-        <textarea id="dataInput" placeholder="1&#10;2">1
+        <textarea id="dataInput" oninput="renderLabels()" placeholder="1&#10;2">1
 2</textarea>
-        <button class="btn-generate" onclick="generateLabels()">Generate &amp; Print</button>
+        <button class="btn-print" onclick="printLabels()">Print Labels</button>
     </div>
 
     <div id="labels-container"></div>
 
     <script>
-        function generateLabels() {
+        function renderLabels() {
             const input = document.getElementById('dataInput').value;
             const lines = input.split('\n').map(item => item.trim()).filter(item => item !== '');
             const container = document.getElementById('labels-container');
@@ -140,14 +150,17 @@
                 JsBarcode(`#${id1}`, wo, { format: "CODE128", width: 2.5, height: 70, displayValue: false });
                 JsBarcode(`#${id2}`, wo, { format: "CODE128", width: 2.5, height: 70, displayValue: false });
             });
+        }
 
+        function printLabels() {
+            renderLabels();
             window.print();
         }
 
-        window.onload = function() {
-            generateLabels();
-        };
+        renderLabels();
     </script>
 
+</main>
+<script src="../assets/fit-preview.js"></script>
 </body>
 </html>

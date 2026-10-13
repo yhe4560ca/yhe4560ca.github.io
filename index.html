@@ -3,154 +3,49 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>yhe4560ca — Tools</title>
+<title>YHECA</title>
 <link rel="stylesheet" href="assets/style.css">
-<style>
-  body {
-    margin: 0;
-    padding: 48px 20px;
-  }
-  main {
-    max-width: 720px;
-    margin: 0 auto;
-  }
-  header {
-    margin-bottom: 32px;
-  }
-  h1 {
-    font-size: 1.6rem;
-    margin: 0 0 8px 0;
-  }
-  .tools {
-    display: grid;
-    gap: 14px;
-  }
-  a.card {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 18px 20px;
-    text-decoration: none;
-    color: inherit;
-    transition: border-color 0.15s ease, transform 0.15s ease;
-  }
-  a.card:hover {
-    border-color: var(--accent);
-    transform: translateY(-1px);
-  }
-  .card h2 {
-    margin: 0 0 4px 0;
-    font-size: 1.05rem;
-    color: var(--accent);
-  }
-  .card p {
-    margin: 0;
-    color: var(--muted);
-    font-size: 0.92rem;
-  }
-
-  /* Thumbnails mimic the printed label: always black-on-white, regardless of theme */
-  .thumb {
-    flex-shrink: 0;
-    width: 72px;
-    height: 72px;
-    background: #fff;
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    color: #000;
-  }
-
-  .thumb-bin {
-    flex-direction: column;
-    gap: 4px;
-    padding: 8px;
-  }
-
-  .thumb-barcode {
-    width: 100%;
-    height: 16px;
-    background: repeating-linear-gradient(90deg, #000 0 2px, transparent 2px 4px);
-  }
-
-  .thumb-bin-row {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 4px;
-  }
-
-  .thumb-code {
-    font-weight: 700;
-    font-size: 7px;
-    letter-spacing: 0.2px;
-    white-space: nowrap;
-  }
-
-  .thumb-badge {
-    background: #000;
-    color: #fff;
-    font-weight: 700;
-    font-size: 7px;
-    line-height: 1;
-    padding: 3px 4px;
-    border-radius: 2px;
-  }
-
-  .thumb-pallet {
-    flex-direction: column;
-    justify-content: space-evenly;
-    padding: 8px;
-  }
-
-  .thumb-pallet .thumb-line {
-    font-weight: 700;
-    white-space: nowrap;
-  }
-
-  .thumb-wo {
-    flex-direction: column;
-    gap: 3px;
-    padding: 6px;
-  }
-
-  .thumb-wo-block {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 2px;
-  }
-
-  .thumb-wo-text {
-    font-weight: 700;
-    font-size: 7px;
-    white-space: nowrap;
-  }
-
-  .thumb-wo .thumb-barcode {
-    height: 10px;
-  }
-
-  .thumb-wo-divider {
-    width: 100%;
-    border-top: 1px dashed #000;
-  }
-</style>
 </head>
 <body>
-<main>
-  <header>
-    <h1>Tools</h1>
+<script src="assets/nav.js"></script>
+<main class="index-page home">
+  <header class="home-hero">
+    <svg class="home-ship" viewBox="0 0 640 240" aria-hidden="true" focusable="false">
+      <path d="M36 140 H612 L572 214 H82 Q58 196 36 140 Z"/>
+      <rect x="66" y="86" width="74" height="54"/>
+      <rect x="78" y="66" width="52" height="20"/>
+      <rect x="114" y="34" width="14" height="32"/>
+      <g>
+        <rect x="160" y="112" width="68" height="26"/><rect x="232" y="112" width="68" height="26"/>
+        <rect x="304" y="112" width="68" height="26"/><rect x="376" y="112" width="68" height="26"/>
+        <rect x="448" y="112" width="68" height="26"/><rect x="520" y="112" width="60" height="26"/>
+        <rect x="196" y="82" width="68" height="26"/><rect x="268" y="82" width="68" height="26"/>
+        <rect x="340" y="82" width="68" height="26"/><rect x="412" y="82" width="68" height="26"/>
+        <rect x="484" y="82" width="60" height="26"/>
+        <rect x="268" y="52" width="68" height="26"/><rect x="340" y="52" width="68" height="26"/>
+        <rect x="412" y="52" width="68" height="26"/>
+      </g>
+    </svg>
+    <h1>YHECA</h1>
+    <p>YHECA documentation and common tools.</p>
   </header>
-  <div class="tools">
-    <a class="card" href="tools/bin-label-generator.html">
+
+  <!-- Keep these lists in step with docs/index.html and tools/index.html -->
+  <section aria-labelledby="home-docs">
+    <h2 id="home-docs"><a href="docs/index.html">Documentation</a></h2>
+    <ul class="doc-list">
+      <li>
+        <div><a href="docs/outbound-order-processing.html">Outbound Order Processing</a><span class="doc-tag">New WMS</span></div>
+        <p>Create and print picking lists, and pack orders.</p>
+        <time datetime="2026-10-13">Oct 13, 2026</time>
+      </li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="home-tools">
+    <h2 id="home-tools"><a href="tools/index.html">Label Creator</a></h2>
+    <div class="tools">
+    <a class="tool" href="tools/bin-label-generator.html">
       <div class="thumb thumb-bin">
         <div class="thumb-barcode"></div>
         <div class="thumb-bin-row">
@@ -159,22 +54,22 @@
         </div>
       </div>
       <div>
-        <h2>Bin Label Generator</h2>
-        <p>Generate printable 6x4 warehouse bin labels.</p>
+        <h3>Bin label</h3>
+        <p>Bin location code and barcode. Prints landscape (6x4).</p>
       </div>
     </a>
-    <a class="card" href="tools/pallet-info-generator.html">
+    <a class="tool" href="tools/pallet-info-generator.html">
       <div class="thumb thumb-pallet">
         <div class="thumb-line" style="font-size: 7px;">#1234(Y)</div>
         <div class="thumb-line" style="font-size: 6px;">FBY</div>
         <div class="thumb-line" style="font-size: 10px;">08/28</div>
       </div>
       <div>
-        <h2>Pallet Info Label Generator</h2>
-        <p>Generate printable portrait 4x6 pallet labels.</p>
+        <h3>Pallet info label</h3>
+        <p>Pallet number, category and date in large print.</p>
       </div>
     </a>
-    <a class="card" href="tools/wo-bin-label-generator.html">
+    <a class="tool" href="tools/wo-bin-label-generator.html">
       <div class="thumb thumb-wo">
         <div class="thumb-wo-block">
           <span class="thumb-wo-text">WO-001</span>
@@ -187,11 +82,24 @@
         </div>
       </div>
       <div>
-        <h2>WO Bin Label Generator</h2>
-        <p>Generate printable 4x6 work-order barcode labels.</p>
+        <h3>WO bin label</h3>
+        <p>Work-order number and barcode, printed twice per label.</p>
       </div>
     </a>
-  </div>
+    <a class="tool" href="tools/defective-bin-label-generator.html">
+      <div class="thumb thumb-defect">
+        <div class="thumb-bin-row"><span class="thumb-code">LOC-1</span><div class="thumb-barcode"></div></div>
+        <div class="thumb-bin-row"><span class="thumb-code">LOC-2</span><div class="thumb-barcode"></div></div>
+        <div class="thumb-bin-row"><span class="thumb-code">LOC-3</span><div class="thumb-barcode"></div></div>
+        <div class="thumb-bin-row"><span class="thumb-code">LOC-4</span><div class="thumb-barcode"></div></div>
+      </div>
+      <div>
+        <h3>Defective bin label</h3>
+        <p>Four location barcodes per label.</p>
+      </div>
+    </a>
+    </div>
+  </section>
 </main>
 </body>
 </html>
