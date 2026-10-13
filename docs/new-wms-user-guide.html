@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>New WMS User Guide — YHECA</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<script src="../assets/nav.js"></script>
+<!-- Source of truth: sop-source/new_system.docx (private). Update that file first, then this page. -->
+<main class="doc doc-with-toc">
+  <header class="doc-head">
+    <h1>New WMS User Guide</h1>
+    <p class="doc-meta">How to use the new warehouse management system (WMS) to receive, pick and pack orders.</p>
+    <dl class="doc-info">
+      <div><dt>System</dt><dd>New WMS</dd></div>
+      <div><dt>Last updated</dt><dd><time datetime="2026-10-13">October 13, 2026</time></dd></div>
+    </dl>
+  </header>
+  <nav class="doc-toc" aria-label="Contents">
+    <h2>Contents</h2>
+    <ol>
+      <li><a href="#purpose">1. Purpose</a></li>
+      <li><a href="#scope">2. Scope</a></li>
+      <li><a href="#definitions">3. Definitions</a></li>
+      <li><a href="#system-use">4. General system use</a></li>
+      <li><a href="#procedure">5. Procedure</a>
+        <ol>
+          <li><a href="#receiving">5.1 Receiving</a></li>
+          <li><a href="#shipping">5.2 Shipping</a>
+            <ol>
+              <li><a href="#create-picking-list">5.2.1 Create a picking list</a></li>
+              <li><a href="#print-picking-list">5.2.2 Print a picking list</a></li>
+              <li><a href="#pl-numbering">5.2.3 Picking list numbering</a></li>
+              <li><a href="#packing">5.2.4 Packing</a></li>
+            </ol>
+          </li>
+        </ol>
+      </li>
+      <li><a href="#known-issues">6. Known issues</a></li>
+    </ol>
+  </nav>
+  <article class="doc-body">
+  <h2 id="purpose">1. Purpose</h2>
+  <p>This guide describes how to use the new warehouse management system (WMS) to receive, pick and pack orders.</p>
+
+  <h2 id="scope">2. Scope</h2>
+  <p>This guide applies to all warehouse staff who use the new WMS.</p>
+
+  <h2 id="definitions">3. Definitions</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Term</th><th>Definition</th></tr></thead>
+      <tbody>
+        <tr><td>WMS</td><td>Warehouse management system</td></tr>
+        <tr><td>PL</td><td>Picking list: a document listing the orders and items to be picked</td></tr>
+        <tr><td>One ticket, one item</td><td>An order that contains a single item</td></tr>
+        <tr><td>One ticket for multiple</td><td>An order that contains more than one item</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 id="system-use">4. General system use</h2>
+  <h3 id="loading-data">4.1 Loading data</h3>
+  <p>When a module is opened from the left menu, the WMS displays <strong>No data available</strong> until data is requested. This does not mean there are no records.</p>
+  <figure>
+    <a href="images/outbound-no-data.png"><img src="images/outbound-no-data.png" width="1880" height="896" alt="Outbound order management screen showing an empty table with the message No data available"></a>
+    <figcaption>Figure 1. Module with no data loaded</figcaption>
+  </figure>
+  <p>To load data, click <strong>Inquiry</strong>.</p>
+  <figure>
+    <a href="images/outbound-inquiry.png"><img src="images/outbound-inquiry.png" width="1880" height="896" alt="The Inquiry button highlighted in the toolbar above the table"></a>
+    <figcaption>Figure 2. Inquiry button</figcaption>
+  </figure>
+
+  <h2 id="procedure">5. Procedure</h2>
+  <h3 id="receiving">5.1 Receiving</h3>
+  <p class="tbd">Not documented yet.</p>
+
+  <h3 id="shipping">5.2 Shipping</h3>
+
+  <h4 id="create-picking-list">5.2.1 Create a picking list</h4>
+  <ol class="steps">
+    <li>In the left menu, select <strong>Outbound management → Create a picking list</strong>.</li>
+    <li>Click <strong>Inquiry</strong> to load the orders.
+      <figure>
+        <a href="images/create-picking-list.png"><img src="images/create-picking-list.png" width="1903" height="938" alt="Create a picking list highlighted in the Outbound management menu"></a>
+        <figcaption>Figure 3. Create a picking list</figcaption>
+      </figure>
+    </li>
+    <li>Check the <strong>Type of picking</strong> column. Each order is classified as <strong>One ticket, one item</strong> or <strong>One ticket for multiple</strong>.</li>
+    <li>Create a separate picking list for each type.</li>
+  </ol>
+
+  <h4 id="print-picking-list">5.2.2 Print a picking list</h4>
+  <ol class="steps">
+    <li>In the left menu, select <strong>Picking list</strong>.</li>
+    <li>Click <strong>Inquiry</strong> to load the picking lists.</li>
+    <li>Locate the picking list by its PL number (see <a href="#pl-numbering">section 5.2.3</a>).</li>
+    <li>Select the picking list and click <strong>Print</strong>.
+      <figure>
+        <a href="images/picking-list-print.png"><img src="images/picking-list-print.png" width="1676" height="480" alt="Picking list table with the green Print button highlighted"></a>
+        <figcaption>Figure 4. Print button on the Picking list screen</figcaption>
+      </figure>
+      <div class="note">
+        <p><strong>Note:</strong> The WMS does not display the PL number after a picking list is created, and the included orders are removed from the Create a picking list screen. Find the new list on the Picking list screen.</p>
+      </div>
+    </li>
+  </ol>
+
+  <h4 id="pl-numbering">5.2.3 Picking list numbering</h4>
+  <p>PL numbers use the format: <strong>PL + YYMMDD + three-digit sequence number</strong>.</p>
+  <p>The date in the PL number is the day <strong>after</strong> the creation date.</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Created on</th><th>PL numbers</th></tr></thead>
+      <tbody>
+        <tr><td>10/14/26</td><td><code>PL261015001</code>, <code>PL261015002</code>, …</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h4 id="packing">5.2.4 Packing</h4>
+  <ol class="steps">
+    <li>In the left menu, select <strong>Outbound management → Package management</strong>, then select the page that matches the picking list type: <strong>One ticket, one item</strong> or <strong>One ticket for multiple</strong>.
+      <figure>
+        <a href="images/package-management-menu.png"><img src="images/package-management-menu.png" width="1886" height="862" alt="Package management menu with One ticket, one item and One ticket for multiple highlighted"></a>
+        <figcaption>Figure 5. Package management pages</figcaption>
+      </figure>
+    </li>
+    <li>In <strong>Picking order number</strong>, enter the PL number and click <strong>Search</strong>.
+      <div class="note">
+        <p><strong>Note:</strong> A packaging material pop-up may appear when you resume packing a picking list. See <a href="#known-issues">section 6.1</a>.</p>
+      </div>
+      <figure>
+        <a href="images/picking-order-search.png"><img src="images/picking-order-search.png" width="1891" height="862" alt="Picking order number field and Search button highlighted"></a>
+        <figcaption>Figure 6. Picking order number search</figcaption>
+      </figure>
+    </li>
+    <li>Select the <strong>Print labels</strong> check box.
+      <figure>
+        <a href="images/print-labels-checkbox.png"><img src="images/print-labels-checkbox.png" width="1481" height="435" alt="Print labels check box highlighted above the SKU field"></a>
+        <figcaption>Figure 7. Print labels check box</figcaption>
+      </figure>
+    </li>
+    <li>Scan the SKU of an item. The shipping label prints.
+      <div class="note">
+        <p><strong>Note:</strong> If no label prints, see <a href="#known-issues">section 6.2</a>.</p>
+      </div>
+    </li>
+    <li>Wait until the label has printed before you scan the next item.</li>
+  </ol>
+  <div class="note caution">
+    <p><strong>Caution:</strong> Scanning the same SKU in quick succession can print duplicate shipping labels.</p>
+  </div>
+
+  <h2 id="known-issues">6. Known issues</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>#</th><th>Issue</th><th>Workaround</th></tr></thead>
+      <tbody>
+        <tr><td>6.1</td><td>When you resume packing a picking list, a pop-up may ask you to select packaging material. The selection cannot be skipped. One ticket, one item orders do not require packaging material.</td><td>Select the smallest packaging material (usually the first option) to continue.</td></tr>
+        <tr><td>6.2</td><td>No shipping label prints after an item is scanned. The order may not have a shipping label, or printing failed for another reason.</td><td>Write down the order details and report them to your supervisor.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  </article>
+</main>
+<script src="../assets/doc-toc.js"></script>
+</body>
+</html>
