@@ -80,6 +80,9 @@ location_4</textarea>
 
     <script>
         const LABELS_PER_PAGE = 4;
+        // Bar height in px (96 px = 1 in). If the barcode is too wide for the label, it shrinks
+        // to fit and its height shrinks by the same amount.
+        const BARCODE_HEIGHT = 45;
 
         function renderLabels() {
             const lines = readLines('codeInput');
@@ -96,7 +99,7 @@ location_4</textarea>
                     const label = el('div', 'label');
                     page.appendChild(label);
                     label.appendChild(el('div', 'code-text', code));
-                    addBarcode(label, code, { width: 2, height: 45 }, issues);
+                    addBarcode(label, code, { width: 2, height: BARCODE_HEIGHT }, issues);
                 });
             }
 

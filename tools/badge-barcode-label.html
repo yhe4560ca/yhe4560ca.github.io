@@ -87,6 +87,10 @@ ZA01-05-02</textarea>
     <div id="labels-container"></div>
 
     <script>
+        // Bar height in px (96 px = 1 in). If the barcode is too wide for the label, it shrinks
+        // to fit and its height shrinks by the same amount.
+        const BARCODE_HEIGHT = 100;
+
         function renderLabels() {
             const container = document.getElementById('labels-container');
             const issues = createIssues();
@@ -99,7 +103,7 @@ ZA01-05-02</textarea>
                 const card = el('div', 'label-card');
                 container.appendChild(card);
 
-                addBarcode(card, code, { width: 6, height: 100, margin: 10 }, issues);
+                addBarcode(card, code, { width: 6, height: BARCODE_HEIGHT, margin: 10 }, issues);
                 card.appendChild(el('hr', 'label-divider'));
 
                 const badge = (code.match(/^[A-Za-z]+/) || [''])[0];
