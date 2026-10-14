@@ -524,9 +524,15 @@ body:has(.no-print) {
   gap: 20px;
 }
 
-/* Wide screens: inputs on the left (kept in view while scrolling), previews on the right */
+/* Holds the input card; on wide screens it becomes the left column */
+.input-panel {
+  width: 100%;
+}
+
+/* Wide screens: inputs on the left, centered vertically and kept in view while
+   scrolling; previews on the right */
 @media screen and (min-width: 900px) {
-  .site-main:has(> .no-print) {
+  .site-main:has(> .input-panel) {
     max-width: var(--page-width);
     margin: 0 auto;
     display: flex;
@@ -536,12 +542,22 @@ body:has(.no-print) {
     gap: 32px;
   }
 
-  .site-main > .no-print {
+  .site-main > .input-panel {
     flex: 0 0 440px;
-    box-sizing: border-box;
-    margin: 0;
     position: sticky;
     top: calc(var(--nav-height) + 24px);
+    height: calc(100vh - var(--nav-height) - 48px);
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+  }
+
+  /* Auto margins center the card, and fall back to the top if the screen is too short */
+  .input-panel > .no-print {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: none;
+    margin: auto 0;
   }
 
   .site-main > #labels-container,

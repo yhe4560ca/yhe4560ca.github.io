@@ -51,17 +51,19 @@
 <script src="../assets/nav.js"></script>
 <main class="site-main">
 
-    <div class="no-print">
-        <h2>Double Barcode Label Creator</h2>
-        <label class="option">Prefix:
-            <input type="text" id="prefixInput" value="WO-" oninput="renderLabels()">
-        </label>
-        <label for="codeInput">Enter codes, one per line. Plain numbers are padded to 3 digits (e.g., 1 → WO-001):</label>
-        <textarea id="codeInput" oninput="renderLabels()" placeholder="1&#10;2">1
+    <div class="input-panel">
+        <div class="no-print">
+            <h2>Double Barcode Label Creator</h2>
+            <label class="option">Prefix:
+                <input type="text" id="prefixInput" value="WO-" oninput="renderLabels()">
+            </label>
+            <label for="codeInput">Enter codes, one per line. Plain numbers are padded to 3 digits (e.g., 1 → WO-001):</label>
+            <textarea id="codeInput" oninput="renderLabels()" placeholder="1&#10;2">1
 2</textarea>
-        <div class="label-count" id="labelCount"></div>
-        <button class="btn-print" onclick="renderAndPrint(renderLabels)">Print Labels</button>
-        <div class="error" id="errorMsg"></div>
+            <div class="label-count" id="labelCount"></div>
+            <button class="btn-print" onclick="renderAndPrint(renderLabels)">Print Labels</button>
+            <div class="error" id="errorMsg"></div>
+        </div>
     </div>
 
     <div id="labels-container"></div>
