@@ -70,6 +70,9 @@
 location_2
 location_3
 location_4</textarea>
+            <label class="option">Barcode height (px):
+                <input type="number" id="heightInput" class="input-field" min="10" max="400" step="5" oninput="renderLabels()">
+            </label>
             <div class="label-count" id="labelCount"></div>
             <button class="btn-print" onclick="renderAndPrint(renderLabels)">Print Labels</button>
             <div class="error" id="errorMsg"></div>
@@ -80,14 +83,15 @@ location_4</textarea>
 
     <script>
         const LABELS_PER_PAGE = 4;
-        // Bar height in px (96 px = 1 in). If the barcode is too wide for the label, it shrinks
-        // to fit and its height shrinks by the same amount.
+        // Starting value of the Barcode height box, in px (96 px = 1 in). If the barcode is too
+        // wide for the label, it shrinks to fit and its height shrinks by the same amount.
         const BARCODE_HEIGHT = 45;
 
         function renderLabels() {
             const lines = readLines('codeInput');
             const container = document.getElementById('labels-container');
             const issues = createIssues();
+            const height = readNumber('heightInput', BARCODE_HEIGHT);
             container.replaceChildren();
             showCount('labelCount', `${plural(lines.length, 'code')} on ${plural(Math.ceil(lines.length / LABELS_PER_PAGE), 'label')}`);
 
@@ -99,13 +103,15 @@ location_4</textarea>
                     const label = el('div', 'label');
                     page.appendChild(label);
                     label.appendChild(el('div', 'code-text', code));
-                    addBarcode(label, code, { width: 2, height: BARCODE_HEIGHT }, issues);
+                    addBarcode(label, code, { width: 2, height: height }, issues);
+                    checkFits(label, code, issues);
                 });
             }
 
             showIssues('errorMsg', issues);
         }
 
+        document.getElementById('heightInput').value = BARCODE_HEIGHT;
         renderLabels();
     </script>
 

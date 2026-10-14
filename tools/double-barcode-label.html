@@ -59,6 +59,9 @@
             <label for="codeInput">Enter codes, one per line (2 per label):</label>
             <textarea id="codeInput" oninput="renderLabels()" placeholder="WO-001&#10;WO-002">WO-001
 WO-002</textarea>
+            <label class="option">Barcode height (px):
+                <input type="number" id="heightInput" class="input-field" min="10" max="400" step="5" oninput="renderLabels()">
+            </label>
             <div class="label-count" id="labelCount"></div>
             <button class="btn-print" onclick="renderAndPrint(renderLabels)">Print Labels</button>
             <div class="error" id="errorMsg"></div>
@@ -69,13 +72,14 @@ WO-002</textarea>
 
     <script>
         const CODES_PER_LABEL = 2;
-        // Bar height in px (96 px = 1 in). If the barcode is too wide for the label, it shrinks
-        // to fit and its height shrinks by the same amount.
+        // Starting value of the Barcode height box, in px (96 px = 1 in). If the barcode is too
+        // wide for the label, it shrinks to fit and its height shrinks by the same amount.
         const BARCODE_HEIGHT = 70;
 
         function renderLabels() {
             const container = document.getElementById('labels-container');
             const issues = createIssues();
+            const height = readNumber('heightInput', BARCODE_HEIGHT);
             container.replaceChildren();
 
             const codes = readLines('codeInput');
@@ -92,13 +96,15 @@ WO-002</textarea>
                     const code = codes[start + i];
                     if (code === undefined) return;
                     block.appendChild(el('div', 'code-text', code));
-                    addBarcode(block, code, { width: 2.5, height: BARCODE_HEIGHT, margin: 10 }, issues);
+                    addBarcode(block, code, { width: 2.5, height: height, margin: 10 }, issues);
                 });
+                checkFits(card, codes.slice(start, start + CODES_PER_LABEL).join(' / '), issues);
             }
 
             showIssues('errorMsg', issues);
         }
 
+        document.getElementById('heightInput').value = BARCODE_HEIGHT;
         renderLabels();
     </script>
 

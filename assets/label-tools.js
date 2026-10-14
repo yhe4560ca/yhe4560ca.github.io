@@ -13,8 +13,19 @@ function readLines(id) {
         .filter(line => line !== '');
 }
 
+// Positive number from an input, or fallback while it is empty or invalid
+function readNumber(id, fallback) {
+    const n = parseFloat(document.getElementById(id).value);
+    return n > 0 ? n : fallback;
+}
+
 function createIssues() {
-    return { failed: [], tooSmall: [] };
+    return { failed: [], tooSmall: [], tooTall: [] };
+}
+
+// Call once a label is complete: records text if its content does not fit the label
+function checkFits(label, text, issues) {
+    if (label.scrollHeight > label.clientHeight + 1) issues.tooTall.push(text);
 }
 
 // Creates an element with a class and optional text (text, not HTML, so any input is safe)
@@ -55,6 +66,9 @@ function showIssues(id, issues, hint = 'shorten the text') {
     }
     if (issues.tooSmall.length) {
         box.appendChild(el('div', '', `Barcode too small to scan reliably, ${hint}: ${issues.tooSmall.join(', ')}`));
+    }
+    if (issues.tooTall.length) {
+        box.appendChild(el('div', '', `Too tall for the label, lower the barcode height: ${issues.tooTall.join(', ')}`));
     }
 }
 
