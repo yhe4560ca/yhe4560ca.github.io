@@ -69,10 +69,8 @@
 location_2
 location_3
 location_4</textarea>
-        <div class="button-group">
-            <button class="btn-generate" onclick="renderLabels()">Generate</button>
-            <button class="btn-print" onclick="renderAndPrint(renderLabels)">Print</button>
-        </div>
+        <div class="label-count" id="labelCount"></div>
+        <button class="btn-print" onclick="renderAndPrint(renderLabels)">Print Labels</button>
         <div class="error" id="errorMsg"></div>
     </div>
 
@@ -86,6 +84,7 @@ location_4</textarea>
             const container = document.getElementById('labels-container');
             const issues = createIssues();
             container.replaceChildren();
+            showCount('labelCount', `${plural(lines.length, 'code')} on ${plural(Math.ceil(lines.length / LABELS_PER_PAGE), 'label')}`);
 
             for (let start = 0; start < lines.length; start += LABELS_PER_PAGE) {
                 const page = el('div', 'label-page');

@@ -58,6 +58,15 @@ function showIssues(id, issues, hint = 'shorten the text') {
     }
 }
 
+// "1 label", "3 labels"
+function plural(n, word) {
+    return `${n} ${word}${n === 1 ? '' : 's'}`;
+}
+
+function showCount(id, text) {
+    document.getElementById(id).textContent = text;
+}
+
 // Re-render, then print once layout (and any text fitting) has settled
 function renderAndPrint(render) {
     render();

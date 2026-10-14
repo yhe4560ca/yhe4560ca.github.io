@@ -59,6 +59,7 @@
         <label for="codeInput">Enter codes, one per line. Plain numbers are padded to 3 digits (e.g., 1 → WO-001):</label>
         <textarea id="codeInput" oninput="renderLabels()" placeholder="1&#10;2">1
 2</textarea>
+        <div class="label-count" id="labelCount"></div>
         <button class="btn-print" onclick="renderAndPrint(renderLabels)">Print Labels</button>
         <div class="error" id="errorMsg"></div>
     </div>
@@ -72,7 +73,10 @@
             const issues = createIssues();
             container.replaceChildren();
 
-            readLines('codeInput').forEach(line => {
+            const lines = readLines('codeInput');
+            showCount('labelCount', plural(lines.length, 'label'));
+
+            lines.forEach(line => {
                 const code = prefix + (/^\d+$/.test(line) ? line.padStart(3, '0') : line);
                 const card = el('div', 'label-card');
                 container.appendChild(card);
