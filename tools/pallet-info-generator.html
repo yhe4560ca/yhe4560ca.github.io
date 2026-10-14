@@ -6,10 +6,6 @@
     <title>Pallet Info Label Creator — YHECA</title>
     <link rel="stylesheet" href="../assets/style.css">
     <style>
-        body {
-            margin: 0;
-        }
-
         .site-main {
             display: flex;
             flex-direction: column;
@@ -19,7 +15,6 @@
         }
 
         .no-print {
-            padding: 20px;
             width: 100%;
             max-width: 450px;
             margin-bottom: 20px;
@@ -235,13 +230,18 @@
             const labelContainer = document.createElement('div');
             labelContainer.className = 'label-container preview-active print-active';
 
-            labelContainer.innerHTML = `
-                <div class="label">
-                    <div class="label-line-wrapper"><div class="label-line text-num">${num}</div></div>
-                    <div class="label-line-wrapper"><div class="label-line text-category">${category}</div></div>
-                    <div class="label-line-wrapper"><div class="label-line text-date">${date}</div></div>
-                </div>
-            `;
+            const label = document.createElement('div');
+            label.className = 'label';
+            [['text-num', num], ['text-category', category], ['text-date', date]].forEach(([cls, text]) => {
+                const wrapper = document.createElement('div');
+                wrapper.className = 'label-line-wrapper';
+                const line = document.createElement('div');
+                line.className = 'label-line ' + cls;
+                line.textContent = text;
+                wrapper.appendChild(line);
+                label.appendChild(wrapper);
+            });
+            labelContainer.appendChild(label);
             wrapper.appendChild(labelContainer);
 
             // Dynamically calculate scale for both # line and category line

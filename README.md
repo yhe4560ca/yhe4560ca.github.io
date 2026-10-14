@@ -16,10 +16,10 @@ Then open http://localhost:5500/ in a browser. Stop the server with Ctrl+C.
 
 ## Label Creator
 
-- [Bin Label Creator](https://yhe4560ca.github.io/tools/bin-label-generator.html) — printable 6x4 warehouse bin labels.
+- [Badge Barcode Label Creator](https://yhe4560ca.github.io/tools/badge-barcode-label.html) — printable 6x4 labels with the leading letters in a black badge (bin locations).
 - [Pallet Info Label Creator](https://yhe4560ca.github.io/tools/pallet-info-generator.html) — printable portrait 4x6 pallet labels.
-- [WO Bin Label Creator](https://yhe4560ca.github.io/tools/wo-bin-label-generator.html) — printable 4x6 barcode labels for work-order bins.
-- [Defective Bin Label Creator](https://yhe4560ca.github.io/tools/defective-bin-label-generator.html) — four location barcode labels per 4x6 sheet.
+- [WO Bin Label Creator](https://yhe4560ca.github.io/tools/wo-badge-barcode-label.html) — printable 4x6 barcode labels for work-order bins.
+- [Defective Bin Label Creator](https://yhe4560ca.github.io/tools/defective-badge-barcode-label.html) — four location barcode labels per 4x6 sheet.
 
 ## Documentation
 

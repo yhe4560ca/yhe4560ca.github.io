@@ -467,10 +467,89 @@ a.tool:hover h3 {
 
 /* ---------- Tool panels ---------- */
 
+/* Label creator pages: input panel on top, label previews below */
+body:has(.no-print) {
+  margin: 0;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
 .no-print {
+  max-width: 600px;
+  margin: 0 auto 30px auto;
+  padding: 20px;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 6px;
+}
+
+.no-print textarea {
+  width: 100%;
+  height: 100px;
+  padding: 10px;
+  font-size: 14px;
+  box-sizing: border-box;
+  margin-bottom: 15px;
+}
+
+.no-print .option {
+  display: block;
+  margin-bottom: 15px;
+}
+
+.no-print .option input[type="text"] {
+  width: 8em;
+  margin-left: 6px;
+  padding: 6px 8px;
+  border-radius: 4px;
+}
+
+.button-group {
+  display: flex;
+  gap: 10px;
+}
+
+.no-print .error {
+  color: #d93025;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+#labels-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+/* Screen preview of one 4x6 or 6x4 sheet */
+.label-card,
+.label-page {
+  border: 1px dashed #999;
+  background: white;
+  color: #000;
+  box-sizing: border-box;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  /* Printed labels keep the system font, independent of the site typeface */
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+.label-card .barcode,
+.label-page .barcode {
+  max-width: 100%;
+  height: auto;
+}
+
+@media print {
+  .no-print { display: none !important; }
+  #labels-container { gap: 0; }
+  .label-card,
+  .label-page {
+    border: none;
+    box-shadow: none;
+    margin: 0;
+    break-after: page;
+  }
 }
 
 .no-print h2 {
@@ -514,6 +593,9 @@ a.tool:hover h3 {
 
 .btn,
 .no-print button {
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
   border-radius: 4px;
   font-family: var(--font-display);
   font-size: 0.95rem;

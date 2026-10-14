@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quad Barcode Label Creator — YHECA</title>
+    <link rel="stylesheet" href="../assets/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
+    <script src="../assets/label-tools.js"></script>
+    <style>
+        /* 4x6 portrait sheet holding 4 stacked labels */
+        .label-page {
+            width: 4in;
+            height: 6in;
+            padding: 0.2in;
+            display: grid;
+            grid-template-columns: 1fr;
+            grid-template-rows: repeat(4, 1fr);
+            gap: 0.1in;
+        }
+
+        .label {
+            border: 1px dashed #ccc;
+            border-radius: 4px;
+            padding: 8px 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+
+        .code-text {
+            font-family: Arial, sans-serif;
+            font-size: 18px;
+            font-weight: bold;
+            text-transform: uppercase;
+            max-width: 55%;
+            overflow-wrap: break-word;
+        }
+
+        /* Barcode scales down first; the text only wraps once it hits its max width */
+        .label-page .barcode {
+            min-width: 0;
+            max-width: 65%;
+        }
+
+        @media print {
+            @page {
+                size: 4in 6in;
+                margin: 0;
+            }
+
+            .label {
+                border: none;
+            }
+        }
+    </style>
+</head>
+<body>
+<script src="../assets/nav.js"></script>
+<main class="site-main">
+
+    <div class="no-print">
+        <h2>Quad Barcode Label Creator</h2>
+        <label for="codeInput">Enter codes, one per line (4 per sheet):</label>
+        <textarea id="codeInput" oninput="renderLabels()" placeholder="location_1&#10;location_2&#10;location_3&#10;location_4">location_1
+location_2
+location_3
+location_4</textarea>
+        <div class="button-group">
+            <button class="btn-generate" onclick="renderLabels()">Generate</button>
+            <button class="btn-print" onclick="renderAndPrint(renderLabels)">Print</button>
+        </div>
+        <div class="error" id="errorMsg"></div>
+    </div>
+
+    <div id="labels-container"></div>
+
+    <script>
+        const LABELS_PER_PAGE = 4;
+
+        function renderLabels() {
+            const lines = readLines('codeInput');
+            const container = document.getElementById('labels-container');
+            const issues = createIssues();
+            container.replaceChildren();
+
+            for (let start = 0; start < lines.length; start += LABELS_PER_PAGE) {
+                const page = el('div', 'label-page');
+                container.appendChild(page);
+
+                lines.slice(start, start + LABELS_PER_PAGE).forEach(code => {
+                    const label = el('div', 'label');
+                    page.appendChild(label);
+                    label.appendChild(el('div', 'code-text', code));
+                    addBarcode(label, code, { width: 2, height: 45 }, issues);
+                });
+            }
+
+            showIssues('errorMsg', issues);
+        }
+
+        renderLabels();
+    </script>
+
+</main>
+<script src="../assets/fit-preview.js"></script>
+</body>
+</html>
