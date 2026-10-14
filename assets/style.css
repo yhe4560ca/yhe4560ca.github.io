@@ -492,18 +492,6 @@ body:has(.no-print) {
   margin-bottom: 15px;
 }
 
-.no-print .option {
-  display: block;
-  margin-bottom: 15px;
-}
-
-.no-print .option input[type="text"] {
-  width: 8em;
-  margin-left: 6px;
-  padding: 6px 8px;
-  border-radius: 4px;
-}
-
 .no-print .label-count {
   font-weight: 600;
   margin-bottom: 15px;
@@ -530,19 +518,22 @@ body:has(.no-print) {
 }
 
 /* Wide screens: inputs on the left, centered vertically and kept in view while
-   scrolling; previews on the right */
+   scrolling; previews on the right, centered until there are too many to fit */
 @media screen and (min-width: 900px) {
   .site-main:has(> .input-panel) {
     max-width: var(--page-width);
+    min-height: calc(100vh - var(--nav-height));
+    box-sizing: border-box;
     margin: 0 auto;
     display: flex;
     flex-direction: row;
     justify-content: center;
-    align-items: flex-start;
+    align-items: center;
     gap: 64px;
   }
 
   .site-main > .input-panel {
+    align-self: flex-start;
     flex: 0 0 520px;
     position: sticky;
     top: calc(var(--nav-height) + 24px);

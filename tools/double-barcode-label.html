@@ -54,12 +54,9 @@
     <div class="input-panel">
         <div class="no-print">
             <h2>Double Barcode Label Creator</h2>
-            <label class="option">Prefix:
-                <input type="text" id="prefixInput" value="WO-" oninput="renderLabels()">
-            </label>
-            <label for="codeInput">Enter codes, one per line. Plain numbers are padded to 3 digits (e.g., 1 → WO-001):</label>
-            <textarea id="codeInput" oninput="renderLabels()" placeholder="1&#10;2">1
-2</textarea>
+            <label for="codeInput">Enter codes, one per line (each prints twice on one label):</label>
+            <textarea id="codeInput" oninput="renderLabels()" placeholder="WO-001&#10;WO-002">WO-001
+WO-002</textarea>
             <div class="label-count" id="labelCount"></div>
             <button class="btn-print" onclick="renderAndPrint(renderLabels)">Print Labels</button>
             <div class="error" id="errorMsg"></div>
@@ -70,16 +67,14 @@
 
     <script>
         function renderLabels() {
-            const prefix = document.getElementById('prefixInput').value.trim();
             const container = document.getElementById('labels-container');
             const issues = createIssues();
             container.replaceChildren();
 
-            const lines = readLines('codeInput');
-            showCount('labelCount', plural(lines.length, 'label'));
+            const codes = readLines('codeInput');
+            showCount('labelCount', plural(codes.length, 'label'));
 
-            lines.forEach(line => {
-                const code = prefix + (/^\d+$/.test(line) ? line.padStart(3, '0') : line);
+            codes.forEach(code => {
                 const card = el('div', 'label-card');
                 container.appendChild(card);
 
