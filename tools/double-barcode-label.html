@@ -8,22 +8,24 @@
     <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
     <script src="../assets/label-tools.js"></script>
     <style>
-        /* 4x6 portrait: the same code printed twice, top and bottom */
+        /* 4x6 portrait: two codes, one on the top half and one on the bottom */
         .label-card {
             width: 4in;
             height: 6in;
             display: flex;
             flex-direction: column;
-            justify-content: space-around;
             align-items: center;
             padding: 0.3in;
             text-align: center;
         }
 
+        /* Each half keeps its space, so a lone last code stays on the top half */
         .item-block {
+            flex: 1;
             width: 100%;
             display: flex;
             flex-direction: column;
+            justify-content: center;
             align-items: center;
             gap: 10px;
         }
@@ -54,7 +56,7 @@
     <div class="input-panel">
         <div class="no-print">
             <h2>Double Barcode Label Creator</h2>
-            <label for="codeInput">Enter codes, one per line (each prints twice on one label):</label>
+            <label for="codeInput">Enter codes, one per line (2 per label):</label>
             <textarea id="codeInput" oninput="renderLabels()" placeholder="WO-001&#10;WO-002">WO-001
 WO-002</textarea>
             <div class="label-count" id="labelCount"></div>
@@ -66,15 +68,17 @@ WO-002</textarea>
     <div id="labels-container"></div>
 
     <script>
+        const CODES_PER_LABEL = 2;
+
         function renderLabels() {
             const container = document.getElementById('labels-container');
             const issues = createIssues();
             container.replaceChildren();
 
             const codes = readLines('codeInput');
-            showCount('labelCount', plural(codes.length, 'label'));
+            showCount('labelCount', `${plural(codes.length, 'code')} on ${plural(Math.ceil(codes.length / CODES_PER_LABEL), 'label')}`);
 
-            codes.forEach(code => {
+            for (let start = 0; start < codes.length; start += CODES_PER_LABEL) {
                 const card = el('div', 'label-card');
                 container.appendChild(card);
 
@@ -82,11 +86,12 @@ WO-002</textarea>
                     if (i) card.appendChild(el('div', 'label-divider'));
                     const block = el('div', 'item-block');
                     card.appendChild(block);
+                    const code = codes[start + i];
+                    if (code === undefined) return;
                     block.appendChild(el('div', 'code-text', code));
-                    // Report each code once, not once per copy
-                    addBarcode(block, code, { width: 2.5, height: 70, margin: 10 }, i ? createIssues() : issues);
+                    addBarcode(block, code, { width: 2.5, height: 70, margin: 10 }, issues);
                 });
-            });
+            }
 
             showIssues('errorMsg', issues);
         }
