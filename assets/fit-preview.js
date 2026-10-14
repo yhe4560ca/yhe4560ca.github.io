@@ -6,9 +6,11 @@
   const main = document.querySelector('.site-main') || document.body;
 
   function fit() {
-    const style = getComputedStyle(main);
-    const available = main.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
     document.querySelectorAll(SELECTOR).forEach(el => {
+      // Fit the column the previews sit in (beside the inputs on wide screens)
+      const box = el.parentElement;
+      const style = getComputedStyle(box);
+      const available = box.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
       el.style.zoom = '';
       const width = el.offsetWidth;
       // Hidden elements (width 0) are left alone

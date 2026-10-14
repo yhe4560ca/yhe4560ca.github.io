@@ -515,11 +515,39 @@ body:has(.no-print) {
   margin-top: 10px;
 }
 
-#labels-container {
+#labels-container,
+#labels-wrapper {
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 20px;
+}
+
+/* Wide screens: inputs on the left (kept in view while scrolling), previews on the right */
+@media screen and (min-width: 900px) {
+  .site-main:has(> .no-print) {
+    max-width: var(--page-width);
+    margin: 0 auto;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 24px;
+  }
+
+  .site-main > .no-print {
+    flex: 0 0 340px;
+    box-sizing: border-box;
+    margin: 0;
+    position: sticky;
+    top: calc(var(--nav-height) + 24px);
+  }
+
+  .site-main > #labels-container,
+  .site-main > #labels-wrapper {
+    flex: 1 1 0;
+    min-width: 0;
+  }
 }
 
 /* Screen preview of one 4x6 or 6x4 sheet */
