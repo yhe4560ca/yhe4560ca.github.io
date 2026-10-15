@@ -42,8 +42,7 @@
         <div class="no-print">
             <h2>Single Barcode Label Creator</h2>
             <label for="codeInput">Enter codes, one per line (1 per label):</label>
-            <textarea id="codeInput" oninput="renderLabels()" placeholder="WO-001&#10;WO-002">WO-001
-WO-002</textarea>
+            <textarea id="codeInput" oninput="renderLabels()" placeholder="MAILER #9">MAILER #9</textarea>
             <div class="option-row">
                 <label class="option">Barcode height (px):
                     <input type="number" id="heightInput" class="input-field" min="10" max="400" step="5" oninput="renderLabels()">
@@ -63,10 +62,10 @@ WO-002</textarea>
     <script>
         // Starting value of the Barcode height box, in px (96 px = 1 in). If the barcode is too
         // wide for the label, it shrinks to fit and its height shrinks by the same amount.
-        const BARCODE_HEIGHT = 135;
+        const BARCODE_HEIGHT = 145;
         // Starting value of the Bar width box: thinnest bar in px. Thicker bars stop helping once
         // the barcode reaches the label edge, because it is then scaled down to fit.
-        const BAR_WIDTH = 3;
+        const BAR_WIDTH = 5;
 
         function renderLabels() {
             const container = document.getElementById('labels-container');
