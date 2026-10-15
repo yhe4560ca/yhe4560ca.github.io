@@ -8,7 +8,7 @@
     <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
     <script src="../assets/label-tools.js"></script>
     <style>
-        /* Double: 4x6 portrait, two codes, one on the top half and one on the bottom */
+        /* 4x6 portrait: two codes, one on the top half and one on the bottom */
         .label-card {
             width: 4in;
             height: 6in;
@@ -17,12 +17,6 @@
             align-items: center;
             padding: 0.3in;
             text-align: center;
-        }
-
-        /* Single: 6x4 landscape, one code */
-        .label-card.landscape {
-            width: 6in;
-            height: 4in;
         }
 
         /* Each half keeps its space, so a lone last code stays on the top half */
@@ -46,9 +40,14 @@
             border-top: 2px dashed #000;
             margin: 10px 0;
         }
+
+        @media print {
+            @page {
+                size: 4in 6in;
+                margin: 0;
+            }
+        }
     </style>
-    <!-- Print page size, set by renderLabels() to match the chosen layout -->
-    <style id="pageSize"></style>
 </head>
 <body>
 <script src="../assets/nav.js"></script>
@@ -57,13 +56,7 @@
     <div class="input-panel">
         <div class="no-print">
             <h2>Double Barcode Label Creator</h2>
-            <label class="option">Layout:
-                <select id="layoutInput" class="input-field" onchange="renderLabels()">
-                    <option value="double">Double — 2 per label, portrait 4x6</option>
-                    <option value="single">Single — 1 per label, landscape 6x4</option>
-                </select>
-            </label>
-            <label for="codeInput">Enter codes, one per line:</label>
+            <label for="codeInput">Enter codes, one per line (2 per label):</label>
             <textarea id="codeInput" oninput="renderLabels()" placeholder="WO-001&#10;WO-002">WO-001
 WO-002</textarea>
             <div class="option-row">
@@ -83,11 +76,7 @@ WO-002</textarea>
     <div id="labels-container"></div>
 
     <script>
-        // Codes per label and print page size for each layout
-        const LAYOUTS = {
-            double: { perLabel: 2, pageSize: '4in 6in' },
-            single: { perLabel: 1, pageSize: '6in 4in' },
-        };
+        const CODES_PER_LABEL = 2;
         // Starting value of the Barcode height box, in px (96 px = 1 in). If the barcode is too
         // wide for the label, it shrinks to fit and its height shrinks by the same amount.
         const BARCODE_HEIGHT = 135;
@@ -102,28 +91,23 @@ WO-002</textarea>
             const width = readNumber('widthInput', BAR_WIDTH);
             container.replaceChildren();
 
-            const layoutName = document.getElementById('layoutInput').value;
-            const layout = LAYOUTS[layoutName];
-            document.getElementById('pageSize').textContent =
-                `@media print { @page { size: ${layout.pageSize}; margin: 0; } }`;
-
             const codes = readLines('codeInput');
-            showCount('labelCount', `${plural(codes.length, 'code')} on ${plural(Math.ceil(codes.length / layout.perLabel), 'label')}`);
+            showCount('labelCount', `${plural(codes.length, 'code')} on ${plural(Math.ceil(codes.length / CODES_PER_LABEL), 'label')}`);
 
-            for (let start = 0; start < codes.length; start += layout.perLabel) {
-                const card = el('div', layoutName === 'single' ? 'label-card landscape' : 'label-card');
+            for (let start = 0; start < codes.length; start += CODES_PER_LABEL) {
+                const card = el('div', 'label-card');
                 container.appendChild(card);
 
-                for (let i = 0; i < layout.perLabel; i++) {
+                [0, 1].forEach(i => {
                     if (i) card.appendChild(el('div', 'label-divider'));
                     const block = el('div', 'item-block');
                     card.appendChild(block);
                     const code = codes[start + i];
-                    if (code === undefined) continue;
+                    if (code === undefined) return;
                     block.appendChild(el('div', 'code-text', code));
                     addBarcode(block, code, { width, height, margin: 10 }, issues);
-                }
-                checkFits(card, codes.slice(start, start + layout.perLabel).join(' / '), issues);
+                });
+                checkFits(card, codes.slice(start, start + CODES_PER_LABEL).join(' / '), issues);
             }
 
             showIssues('errorMsg', issues);

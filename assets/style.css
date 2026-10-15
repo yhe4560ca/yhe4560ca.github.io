@@ -329,6 +329,15 @@ a.tool:hover h3 {
   border-top: 1px dashed #000;
 }
 
+/* Single: one code with a taller barcode */
+.thumb-single .thumb-wo-block {
+  width: 100%;
+}
+
+.thumb-single .thumb-barcode {
+  height: 18px;
+}
+
 .thumb-defect {
   flex-direction: column;
   justify-content: space-evenly;

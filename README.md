@@ -18,7 +18,8 @@ Then open http://localhost:5500/ in a browser. Stop the server with Ctrl+C.
 
 - [Badge Barcode Label Creator](https://yhe4560ca.github.io/tools/badge-barcode-label.html) — printable 6x4 labels with the leading letters in a black badge (bin locations).
 - [Pallet Info Label Creator](https://yhe4560ca.github.io/tools/pallet-info-generator.html) — printable portrait 4x6 pallet labels.
-- [Double Barcode Label Creator](https://yhe4560ca.github.io/tools/double-barcode-label.html) — two codes per portrait 4x6 label, or one per landscape 6x4 label (work-order bins).
+- [Double Barcode Label Creator](https://yhe4560ca.github.io/tools/double-barcode-label.html) — two codes per 4x6 label (work-order bins).
+- [Single Barcode Label Creator](https://yhe4560ca.github.io/tools/single-barcode-label.html) — one code per landscape 6x4 label.
 - [Quad Barcode Label Creator](https://yhe4560ca.github.io/tools/quad-barcode-label.html) — four codes per 4x6 sheet (defective bins).
 
 ## Documentation
